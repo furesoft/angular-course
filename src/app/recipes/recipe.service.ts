@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable, Output } from "@angular/core";
 import { Recipe } from "../models/Recipe";
 import { Ingredient } from "../models/Ingredient";
-import { Subject } from "rxjs";
 
 @Injectable()
 export class RecipeService {
