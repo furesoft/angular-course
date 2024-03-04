@@ -11,7 +11,7 @@ import { Ingredient } from '../../models/Ingredient';
   styleUrl: './recipe-edit.component.css'
 })
 export class RecipeEditComponent implements OnInit {
-  id: number;
+  id: string;
   editMode = false;
   recipeForm: FormGroup
 
@@ -21,19 +21,19 @@ export class RecipeEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params["id"];
+      this.id = params["id"];
       this.editMode = params["id"] != null;
 
       this.initForm();
     });
   }
 
-  private initForm() {
+  private async initForm() {
     let recipe: Recipe = null;
     let recipeIngredients = new FormArray([]);
 
     if (this.editMode) {
-      recipe = this.recipeService.getRecipe(this.id);
+      recipe = await this.recipeService.getRecipe(this.id);
 
       if (recipe.ingredients) {
         for (const ingredient of recipe.ingredients) {
@@ -58,24 +58,17 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     let recipe = this.recipeForm.value;
 
     if (!this.editMode) {
-      this.recipeService.addRecipe(recipe);
+      recipe = await this.recipeService.addRecipe(recipe);
+      this.router.navigate(["../", recipe.id], { relativeTo: this.route });
     }
     else {
-      this.recipeService.updateRecipe(this.id, recipe);
-    }
-
-    if (Number.isNaN(this.id)) {
-      this.id = this.recipeService.getRecipes().length - 1;
-      this.router.navigate(["../", this.id], { relativeTo: this.route });
-    }
-    else {
+      this.recipeService.updateRecipe(recipe);
       this.cancel();
     }
-
   }
 
   get controls() {
@@ -87,7 +80,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   deleteIngredient(index: number) {

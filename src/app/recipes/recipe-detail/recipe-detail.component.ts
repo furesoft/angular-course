@@ -11,16 +11,16 @@ import { RecipeService } from '../recipe.service';
 })
 export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
-  id: number;
+  id: string;
 
   constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute, private recipeService: RecipeService, private router: Router) {
 
   }
   
-  ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.id = +params["id"];
-      this.recipe = this.recipeService.getRecipe(this.id);
+  ngOnInit() {
+    this.route.params.subscribe(async (params: Params) => {
+      this.id = params["id"];
+      this.recipe = await this.recipeService.getRecipe(this.id);
     });
   }
 

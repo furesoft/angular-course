@@ -1,6 +1,7 @@
 import { Ingredient } from "./Ingredient";
 
 export class Recipe {
+    public id: string;
     public name: string;
     public ingredients: Ingredient[];
     public description: string;
