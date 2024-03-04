@@ -5,6 +5,7 @@ import { Subject } from "rxjs";
 import { EnvironmentService } from "../shared/environment.service";
 import { RecordService } from "pocketbase";
 
+//ToDo: nicht immer die ganze liste übertragen sondern nur die geänderten rezepte. Hier führ eigene subjects erstellen oder ein ActionType enum
 @Injectable()
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
@@ -38,5 +39,6 @@ export class RecipeService {
         this.collection.delete(id).then(()=> {
             this.recipesChanged.next();
         });
+
     }
 }
