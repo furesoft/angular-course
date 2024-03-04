@@ -45,7 +45,7 @@ export class RecipeEditComponent implements OnInit {
     this.recipeForm = new FormGroup({
       'name': new FormControl(this.editMode ? recipe.name : null, Validators.required),
       'description': new FormControl(this.editMode ? recipe.description : null, Validators.required),
-      'imgPath': new FormControl(this.editMode ? recipe.imagePath : null, Validators.required),
+      'imagePath': new FormControl(this.editMode ? recipe.imagePath : null, Validators.required),
       'ingredients': recipeIngredients
     });
   }
@@ -73,7 +73,7 @@ export class RecipeEditComponent implements OnInit {
       this.router.navigate(["../", this.id], { relativeTo: this.route });
     }
     else {
-      this.router.navigate(["../"], { relativeTo: this.route });
+      this.cancel();
     }
 
   }
@@ -84,5 +84,9 @@ export class RecipeEditComponent implements OnInit {
 
   addIngredient() {
     (<FormArray>this.recipeForm.get("ingredients")).push(this.getNewIngredientFormGroup(new Ingredient(null, null, null)));
+  }
+
+  cancel() {
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
 }
