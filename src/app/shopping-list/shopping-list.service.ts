@@ -1,60 +1,71 @@
-import { EventEmitter, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Ingredient } from "../models/Ingredient";
 import { Recipe } from "../models/Recipe";
 import { Subject } from "rxjs";
+import { RecordService } from "pocketbase";
+import { EnvironmentService } from "../shared/environment.service";
 
 @Injectable()
 export class ShoppingListService {
-    ingredientsChanged = new Subject<Ingredient[]>();
-    startedEditing = new Subject<number>();
+    ingredientsChanged = new Subject<void>();
+    startedEditing = new Subject<string>();
 
-    private ingredients: Ingredient[] = [];
+    private collection: RecordService<Ingredient>;
 
-    getIngredients() {
-        return this.ingredients.slice();
+    constructor(environment: EnvironmentService) {
+        this.collection = environment.pb.collection("shopping_list");        
     }
 
-    addIngredient(ingredient: Ingredient) {
-        let filteredIngredient = this.ingredients.filter(ingr => ingr.name === ingredient.name)[0];
+    async getIngredients() {
+        return await this.collection.getFullList();
+    }
 
-        if (filteredIngredient) {
+    async addIngredient(ingredient: Ingredient) {
+        try {
+            let filteredIngredient = await this.collection.getOne(ingredient.id);
             ingredient.amount += filteredIngredient.amount;
         }
-        else {
-            this.ingredients.push(ingredient);
+        catch (ex) {
+            this.collection.create(ingredient);
         }
+
+        this.ingredientsChanged.next();
     }
 
-    getIngredient(index: number) {
-        return this.ingredients[index];
+    async getIngredient(id: string) {
+        return await this.collection.getOne(id);
     }
 
     addIngredientsFromRecipe(recipe: Recipe) {
         for (let ingredient of recipe.ingredients) {
-           this.addIngredient(ingredient);
+            this.addIngredient(ingredient);
         }
 
         this.emitChanged();
     }
 
     emitChanged() {
-        this.ingredientsChanged.next(this.ingredients.slice());
+        this.ingredientsChanged.next();
     }
 
-    clear() {
-        this.ingredients = [];
+    async clear() {
+        let ingredients = await this.getIngredients();
+
+        for (const ingredient of ingredients) {
+            this.collection.delete(ingredient.id);
+        }
 
         this.emitChanged();
     }
 
-    updateIngredient(index: number, ingredient: Ingredient) {
-        this.ingredients[index] = ingredient;
+    updateIngredient(ingredient: Ingredient) {
+        this.collection.update(ingredient.id, ingredient);
 
         this.emitChanged();
     }
 
-    delete(index: number) {
-        this.ingredients.splice(index, 1);
+    delete(id: string) {
+       this.collection.delete(id);
 
         this.emitChanged();
     }
