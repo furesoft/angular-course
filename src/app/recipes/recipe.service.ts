@@ -23,11 +23,9 @@ export class RecipeService {
     }
 
     addRecipe(recipe: Recipe) {
-        let tmp = this.collection.create(recipe);
-
-        this.recipesChanged.next();
-
-        return tmp;
+        this.collection.create(recipe).then(() => {
+            this.recipesChanged.next();
+        });
     }
 
     updateRecipe(recipe: Recipe) {
@@ -37,8 +35,8 @@ export class RecipeService {
     }
 
     deleteRecipe(id: string) {
-        this.collection.delete(id);
-
-        this.recipesChanged.next();
+        this.collection.delete(id).then(()=> {
+            this.recipesChanged.next();
+        });
     }
 }

@@ -59,11 +59,14 @@ export class RecipeEditComponent implements OnInit {
   }
 
   async onSubmit() {
-    let recipe = this.recipeForm.value;
+    let recipe: Recipe = this.recipeForm.value;
 
     if (!this.editMode) {
-      recipe = await this.recipeService.addRecipe(recipe);
-      this.router.navigate(["../", recipe.id], { relativeTo: this.route });
+      this.recipeService.addRecipe(recipe);
+
+      this.recipeService.getRecipes().then(recipes => {
+        this.router.navigate(["../", recipes[recipes.length - 1].id], { relativeTo: this.route });
+      });
     }
     else {
       this.recipeService.updateRecipe(recipe);

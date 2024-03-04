@@ -13,21 +13,21 @@ export class ShoppingListService {
     private collection: RecordService<Ingredient>;
 
     constructor(environment: EnvironmentService) {
-        this.collection = environment.pb.collection("shopping_list");        
+        this.collection = environment.pb.collection("shopping_list");
     }
 
     async getIngredients() {
         return await this.collection.getFullList();
     }
 
-    async addIngredient(ingredient: Ingredient) {
-        try {
-            let filteredIngredient = await this.collection.getOne(ingredient.id);
-            ingredient.amount += filteredIngredient.amount;
-        }
-        catch (ex) {
+    addIngredient(ingredient: Ingredient) {
+        this.collection.getFirstListItem(`name = '${ingredient.name}'`).then(filteredIngredient => {
+            filteredIngredient.amount += ingredient.amount;
+
+            this.updateIngredient(filteredIngredient);
+        }).catch(() => {
             this.collection.create(ingredient);
-        }
+        });
 
         this.ingredientsChanged.next();
     }
@@ -48,25 +48,25 @@ export class ShoppingListService {
         this.ingredientsChanged.next();
     }
 
-    async clear() {
-        let ingredients = await this.getIngredients();
-
-        for (const ingredient of ingredients) {
-            this.collection.delete(ingredient.id);
-        }
-
-        this.emitChanged();
+    clear() {
+       this.getIngredients().then(ingredients => {
+           for (const ingredient of ingredients) {
+               this.collection.delete(ingredient.id);
+           }
+       }).then(() => {
+           this.emitChanged();
+       });;
     }
 
     updateIngredient(ingredient: Ingredient) {
-        this.collection.update(ingredient.id, ingredient);
-
-        this.emitChanged();
+        this.collection.update(ingredient.id, ingredient).then(()=> {
+            this.emitChanged();
+        });
     }
 
     delete(id: string) {
-       this.collection.delete(id);
-
-        this.emitChanged();
+        this.collection.delete(id).then(()=> {
+            this.emitChanged();
+        });
     }
 }
