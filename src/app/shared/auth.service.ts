@@ -33,14 +33,18 @@ export class AuthService {
 
     register(user: User) {
         const data = {
-            "username": "noname",
+            "username": user.username,
             "email": user.email,
             "emailVisibility": true,
             "password": user.password,
             "passwordConfirm": user.password
         };
 
-        this.pb.collection('users').create(data);
+        this.pb.collection('users').create(data).then(d => {
+            console.log(d);
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     login(user: User) {
