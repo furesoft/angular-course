@@ -12,16 +12,20 @@ export class ShoppingListService {
 
     private collection: RecordService<Ingredient>;
 
-    constructor(environment: AuthService) {
-        this.collection = environment.pb.collection("shopping_list");
+    constructor(private auth: AuthService) {
+        this.collection = auth.pb.collection("shopping_list");
     }
 
     async getIngredients() {
-        return await this.collection.getFullList();
+        let user = this.auth.getUser();
+
+        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'`});
     }
 
     addIngredient(ingredient: Ingredient) {
-        this.collection.getFirstListItem(`name = '${ingredient.name}'`).then(filteredIngredient => {
+        let user = this.auth.getUser();
+
+        this.collection.getFirstListItem(`name = '${ingredient.name}' && createdBy = '${user.id}'`).then(filteredIngredient => {
             filteredIngredient.amount += ingredient.amount;
 
             this.updateIngredient(filteredIngredient);

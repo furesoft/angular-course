@@ -5,18 +5,21 @@ import { AuthService } from "../shared/auth.service";
 import { RecordService } from "pocketbase";
 import { RecipeChangedArg } from "./recipeChangedArg";
 import { ChangeMode } from "./changeMode";
+import { User } from "../models/User";
 
 @Injectable()
 export class RecipeService {
     recipesChanged = new Subject<RecipeChangedArg>();
     collection: RecordService<Recipe>;
 
-    constructor(environment: AuthService) {
-        this.collection = environment.pb.collection<Recipe>("recipes");
+    constructor(private auth: AuthService) {
+        this.collection = auth.pb.collection<Recipe>("recipes");
     }
 
     async getRecipes() {
-        return await this.collection.getFullList();
+        let user = this.auth.getUser();;
+
+        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'`});
     }
 
     async getRecipe(id: string) {
