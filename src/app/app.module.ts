@@ -17,7 +17,7 @@ import { ApproutingModule as AppRoutingModule } from './app-routing.module';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { AuthComponent } from './auth/auth.component';
-import { EnvironmentService } from './shared/environment.service';
+import { AuthService } from './shared/auth.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { EnvironmentService } from './shared/environment.service';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [EnvironmentService, RecipeService, ShoppingListService],
+  providers: [AuthService, RecipeService, ShoppingListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../models/Recipe';
-import { EnvironmentService } from '../shared/environment.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-recipes',
@@ -10,7 +10,7 @@ import { EnvironmentService } from '../shared/environment.service';
 export class RecipesComponent implements OnInit {
   selectedRecipe: Recipe;
 
-  constructor(private environment: EnvironmentService) {
+  constructor(private environment: AuthService) {
 
   }
 

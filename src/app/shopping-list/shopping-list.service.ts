@@ -3,7 +3,7 @@ import { Ingredient } from "../models/Ingredient";
 import { Recipe } from "../models/Recipe";
 import { Subject } from "rxjs";
 import { RecordService } from "pocketbase";
-import { EnvironmentService } from "../shared/environment.service";
+import { AuthService } from "../shared/auth.service";
 
 @Injectable()
 export class ShoppingListService {
@@ -12,7 +12,7 @@ export class ShoppingListService {
 
     private collection: RecordService<Ingredient>;
 
-    constructor(environment: EnvironmentService) {
+    constructor(environment: AuthService) {
         this.collection = environment.pb.collection("shopping_list");
     }
 
@@ -49,23 +49,23 @@ export class ShoppingListService {
     }
 
     clear() {
-       this.getIngredients().then(ingredients => {
-           for (const ingredient of ingredients) {
-               this.collection.delete(ingredient.id);
-           }
-       }).then(() => {
-           this.emitChanged();
-       });;
+        this.getIngredients().then(ingredients => {
+            for (const ingredient of ingredients) {
+                this.collection.delete(ingredient.id);
+            }
+        }).then(() => {
+            this.emitChanged();
+        });;
     }
 
     updateIngredient(ingredient: Ingredient) {
-        this.collection.update(ingredient.id, ingredient).then(()=> {
+        this.collection.update(ingredient.id, ingredient).then(() => {
             this.emitChanged();
         });
     }
 
     delete(id: string) {
-        this.collection.delete(id).then(()=> {
+        this.collection.delete(id).then(() => {
             this.emitChanged();
         });
     }

@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { User } from '../models/User';
 import { RecordService } from 'pocketbase';
 import { Router } from '@angular/router';
-import { EnvironmentService } from '../shared/environment.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -14,7 +14,7 @@ export class AuthComponent {
   isLoginMode: boolean = true;
   collection: RecordService<User>;
 
-  constructor(private environment: EnvironmentService, private router: Router) {
+  constructor(private environment: AuthService, private router: Router) {
 
   }
 

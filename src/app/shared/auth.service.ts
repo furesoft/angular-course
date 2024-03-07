@@ -4,7 +4,7 @@ import PocketBase from 'pocketbase';
 import { User } from "../models/User";
 
 @Injectable()
-export class EnvironmentService {
+export class AuthService {
     pb = new PocketBase('http://127.0.0.1:8090');
     public isLoggedIn: boolean;
 
@@ -14,10 +14,12 @@ export class EnvironmentService {
 
     logout() {
         this.isLoggedIn = false;
+
+        this.router.navigate(["auth"]);
     }
 
     redirectIfNotLoggedIn() {
-        if(!this.isLoggedIn) {
+        if (!this.isLoggedIn) {
             this.router.navigate(["auth"]);
         }
     }

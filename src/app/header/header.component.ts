@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { EnvironmentService } from '../shared/environment.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +7,7 @@ import { EnvironmentService } from '../shared/environment.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  constructor(private environment: EnvironmentService) {
+  constructor(private environment: AuthService) {
 
   }
 

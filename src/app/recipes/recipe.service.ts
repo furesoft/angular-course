@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from "@angular/core";
 import { Recipe } from "../models/Recipe";
 import { Subject } from "rxjs";
-import { EnvironmentService } from "../shared/environment.service";
+import { AuthService } from "../shared/auth.service";
 import { RecordService } from "pocketbase";
 import { RecipeChangedArg } from "./recipeChangedArg";
 import { ChangeMode } from "./changeMode";
@@ -11,7 +11,7 @@ export class RecipeService {
     recipesChanged = new Subject<RecipeChangedArg>();
     collection: RecordService<Recipe>;
 
-    constructor(environment: EnvironmentService) {
+    constructor(environment: AuthService) {
         this.collection = environment.pb.collection<Recipe>("recipes");
     }
 
