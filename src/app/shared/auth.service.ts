@@ -48,10 +48,8 @@ export class AuthService {
     }
 
     login(user: User) {
-        this.pb.collection("users").authWithPassword(user.email, user.password).then(d => {
+        return this.pb.collection("users").authWithPassword(user.email, user.password).then(d => {
             this.router.navigate(["recipes"]);
-        }).catch(err => {
-            console.log(err);
         });
     }
 }

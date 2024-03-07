@@ -13,6 +13,7 @@ import { AuthService } from '../shared/auth.service';
 export class AuthComponent {
   isLoginMode: boolean = true;
   collection: RecordService<User>;
+  error: string;
 
   constructor(private environment: AuthService, private router: Router) {
 
@@ -28,7 +29,9 @@ export class AuthComponent {
 
   onSubmit(form: NgForm) {
     if (this.isLoginMode) {
-      this.environment.login(form.value);
+      this.environment.login(form.value).catch(err => {
+        this.error = err;
+      });
     }
     else {
       this.environment.register(form.value);
@@ -36,5 +39,9 @@ export class AuthComponent {
     }
 
     form.reset();
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 }
