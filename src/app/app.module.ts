@@ -16,9 +16,8 @@ import { ShoppingListService } from './shopping-list/shopping-list.service';
 import { ApproutingModule as AppRoutingModule } from './app-routing.module';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+import { AuthComponent } from './auth/auth.component';
 import { EnvironmentService } from './shared/environment.service';
-
-
 
 @NgModule({
   declarations: [
@@ -32,7 +31,8 @@ import { EnvironmentService } from './shared/environment.service';
     ShoppingEditComponent,
     DropdownDirective,
     RecipeStartComponent,
-    RecipeEditComponent
+    RecipeEditComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +40,7 @@ import { EnvironmentService } from './shared/environment.service';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [RecipeService, ShoppingListService, EnvironmentService],
+  providers: [EnvironmentService, RecipeService, ShoppingListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

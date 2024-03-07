@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Ingredient } from '../models/Ingredient';
 import { ShoppingListService } from './shopping-list.service';
 import { Subscription } from 'rxjs';
+import { EnvironmentService } from '../shared/environment.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -12,7 +13,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[];
   private ingredientsChangedSubscripion: Subscription;
 
-  constructor(private shoppingListService: ShoppingListService) {
+  constructor(private shoppingListService: ShoppingListService, private environment: EnvironmentService) {
 
   }
 
@@ -24,8 +25,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.ingredients.push(ingredient);
   }
 
-
   ngOnInit() {
+    this.environment.redirectIfNotLoggedIn();
+
     this.shoppingListService.getIngredients().then(ingredients => {
       this.ingredients = ingredients;
     });

@@ -3,7 +3,7 @@ import { Recipe } from "../models/Recipe";
 import { Subject } from "rxjs";
 import { EnvironmentService } from "../shared/environment.service";
 import { RecordService } from "pocketbase";
-import { RecipeChangedArg } from "./RecipeChangedArg";
+import { RecipeChangedArg } from "./recipeChangedArg";
 import { ChangeMode } from "./changeMode";
 
 @Injectable()

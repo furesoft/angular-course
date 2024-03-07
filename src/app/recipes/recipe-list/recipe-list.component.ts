@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Recipe } from "../../models/Recipe";
 import { RecipeService } from '../recipe.service';
 import { Subscription } from 'rxjs';
-import { RecipeChangedArg } from '../RecipeChangedArg';
+import { RecipeChangedArg } from '../recipeChangedArg';
 import { ChangeMode } from '../changeMode';
 
 @Component({
@@ -37,6 +37,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }
