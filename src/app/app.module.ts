@@ -13,7 +13,6 @@ import { ApproutingModule as AppRoutingModule } from './app-routing.module';
 import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './shared/auth.service';
 import { AlertComponent } from './shared/alert/alert.component';
-import { ResolveAuthorPipe } from './shared/resolveAuthor.pipe';
 import { RecipeModule as RecipesModule } from './recipes/recipes.module';
 
 @NgModule({
@@ -22,7 +21,6 @@ import { RecipeModule as RecipesModule } from './recipes/recipes.module';
     HeaderComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
-    DropdownDirective,
     AuthComponent,
     AlertComponent
   ],

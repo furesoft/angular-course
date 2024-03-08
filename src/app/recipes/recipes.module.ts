@@ -6,16 +6,29 @@ import { RecipeItemComponent } from "./recipe-list/recipe-item/recipe-item.compo
 import { RecipeStartComponent } from "./recipe-start/recipe-start.component";
 import { RecipeEditComponent } from "./recipe-edit/recipe-edit.component";
 import { ResolveAuthorPipe } from "../shared/resolveAuthor.pipe";
-import { ApproutingModule } from "../app-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { RouterModule, Routes } from "@angular/router";
+import { DropdownDirective } from "../shared/dropdown.directive";
+
+const routes: Routes = [
+    {
+        path: "recipes", component: RecipesComponent,
+        children: [
+            { path: "", component: RecipeStartComponent },
+            { path: "new", component: RecipeEditComponent },
+            { path: ":id", component: RecipeDetailComponent },
+            { path: ":id/edit", component: RecipeEditComponent }
+        ]
+    },
+];
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        ApproutingModule,
-        CommonModule
+        RouterModule.forChild(routes),
+        CommonModule,
     ],
     exports: [
         RecipesComponent,
@@ -24,7 +37,8 @@ import { CommonModule } from "@angular/common";
         RecipeItemComponent,
         RecipeStartComponent,
         RecipeEditComponent,
-        ResolveAuthorPipe
+        ResolveAuthorPipe,
+        RouterModule,
     ],
     declarations: [
         RecipesComponent,
@@ -33,7 +47,8 @@ import { CommonModule } from "@angular/common";
         RecipeItemComponent,
         RecipeStartComponent,
         RecipeEditComponent,
-        ResolveAuthorPipe
+        ResolveAuthorPipe,
+        DropdownDirective
     ]
 })
 export class RecipeModule {
