@@ -14,22 +14,21 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './shared/auth.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { RecipeModule as RecipesModule } from './recipes/recipes.module';
+import { ShoppingListModule } from './shopping-list/shopping-list.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
     AuthComponent,
-    AlertComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    RecipesModule
+    RecipesModule,
+    ShoppingListModule
   ],
   exports: [
     
