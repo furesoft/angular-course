@@ -3,12 +3,12 @@
         <app-alert [message]="error" *ngIf="error" (close)="onHandleError()" />
 
         <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-            <div class="form-group">
+            <div class="form-group" *ngIf="!isLoginMode">
                 <label for="username">Username</label>
                 <input class="form-control" type="text" name="username" id="username" ngModel required>
             </div>
 
-            <div class="form-group" *ngIf="!isLoginMode">
+            <div class="form-group">
                 <label for="email">E-Mail</label>
                 <input class="form-control" type="email" name="email" id="email" ngModel required email>
             </div>

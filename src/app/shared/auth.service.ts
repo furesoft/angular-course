@@ -19,6 +19,10 @@ export class AuthService {
         return <User>this.pb.authStore.model;
     }
 
+    getUserById(id: string) {
+        return this.pb.collection<User>("users").getOne(id);
+    }
+
     logout() {
         this.pb.authStore.clear();
 

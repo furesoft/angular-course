@@ -19,6 +19,7 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './shared/auth.service';
 import { AlertComponent } from './shared/alert/alert.component';
+import { ResolveAuthorPipe } from './shared/resolveAuthor.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AlertComponent } from './shared/alert/alert.component';
     RecipeStartComponent,
     RecipeEditComponent,
     AuthComponent,
+    ResolveAuthorPipe,
     AlertComponent
   ],
   imports: [

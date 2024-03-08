@@ -21,7 +21,7 @@
 </div>
 
 <div class="pull-right">
-    Author: {{ recipe.createdBy }}
+    Author: {{ recipe.createdBy | resolveAuthor | async }}
 </div>
 
 <div class="row">
