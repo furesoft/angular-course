@@ -5,11 +5,8 @@ import { RecipeDetailComponent } from "./recipe-detail/recipe-detail.component";
 import { RecipeItemComponent } from "./recipe-list/recipe-item/recipe-item.component";
 import { RecipeStartComponent } from "./recipe-start/recipe-start.component";
 import { RecipeEditComponent } from "./recipe-edit/recipe-edit.component";
-import { ResolveAuthorPipe } from "../shared/resolveAuthor.pipe";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
-import { DropdownDirective } from "../shared/dropdown.directive";
+import { SharedModule } from "../shared/shared.module";
 
 const routes: Routes = [
     {
@@ -25,10 +22,8 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule.forChild(routes),
-        CommonModule,
+        SharedModule,
+        RouterModule.forChild(routes), 
     ],
     exports: [
         RecipesComponent,
@@ -37,7 +32,6 @@ const routes: Routes = [
         RecipeItemComponent,
         RecipeStartComponent,
         RecipeEditComponent,
-        ResolveAuthorPipe,
         RouterModule,
     ],
     declarations: [
@@ -47,8 +41,6 @@ const routes: Routes = [
         RecipeItemComponent,
         RecipeStartComponent,
         RecipeEditComponent,
-        ResolveAuthorPipe,
-        DropdownDirective
     ]
 })
 export class RecipeModule {
