@@ -30,6 +30,7 @@ export class ShoppingListService {
 
             this.updateIngredient(filteredIngredient);
         }).catch(() => {
+            ingredient.createdBy = user.id;
             this.collection.create(ingredient);
         });
 
