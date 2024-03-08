@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { User } from '../models/User';
 import { RecordService } from 'pocketbase';
 import { Router } from '@angular/router';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',

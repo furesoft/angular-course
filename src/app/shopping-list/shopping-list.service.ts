@@ -3,7 +3,7 @@ import { Ingredient } from "../models/Ingredient";
 import { Recipe } from "../models/Recipe";
 import { Subject } from "rxjs";
 import { RecordService } from "pocketbase";
-import { AuthService } from "../shared/auth.service";
+import { AuthService } from "../auth/auth.service";
 
 @Injectable()
 export class ShoppingListService {
@@ -19,7 +19,7 @@ export class ShoppingListService {
     async getIngredients() {
         let user = this.auth.getUser();
 
-        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'`});
+        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'` });
     }
 
     addIngredient(ingredient: Ingredient) {

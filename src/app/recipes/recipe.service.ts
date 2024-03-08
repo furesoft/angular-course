@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from "@angular/core";
 import { Recipe } from "../models/Recipe";
 import { Subject } from "rxjs";
-import { AuthService } from "../shared/auth.service";
+import { AuthService } from "../auth/auth.service";
 import { RecordService } from "pocketbase";
 import { RecipeChangedArg } from "./recipeChangedArg";
 import { ChangeMode } from "./changeMode";
@@ -19,7 +19,7 @@ export class RecipeService {
     async getRecipes() {
         let user = this.auth.getUser();;
 
-        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'`});
+        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'` });
     }
 
     async getRecipe(id: string) {

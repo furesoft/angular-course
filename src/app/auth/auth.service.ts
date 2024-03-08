@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import PocketBase from 'pocketbase';
 import { User } from "../models/User";
 
-@Injectable()
+@Injectable({providedIn: "root"})
 export class AuthService {
     pb = new PocketBase('http://127.0.0.1:8090');
     

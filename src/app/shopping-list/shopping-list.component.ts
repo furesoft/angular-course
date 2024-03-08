@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Ingredient } from '../models/Ingredient';
 import { ShoppingListService } from './shopping-list.service';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-shopping-list',
