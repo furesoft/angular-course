@@ -25,9 +25,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Install Angular CLI
-      uses: mayurrawte/github-angular-actions@v1.1.0
-    - run: ng build --prod
     - name: Angular Deploy gh-pages Actions
       uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
       with:
