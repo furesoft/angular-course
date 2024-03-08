@@ -3,9 +3,9 @@ name: NodeJS
 on:
   push:
     branches:
-    - main
+    - master
 
-jobs:
+jobs: 
   deploy:
     runs-on: ubuntu-latest
     steps:
