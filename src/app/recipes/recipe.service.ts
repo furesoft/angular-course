@@ -16,10 +16,14 @@ export class RecipeService {
         this.collection = auth.pb.collection<Recipe>("recipes");
     }
 
-    async getRecipes() {
+    async getRecipes(all: boolean) {
         let user = this.auth.getUser();;
 
-        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'` });
+        if(all) {
+            return await this.collection.getFullList();
+        }
+
+        return await this.collection.getFullList( { filter: `createdBy = '${user.id}'`});
     }
 
     async getRecipe(id: string) {

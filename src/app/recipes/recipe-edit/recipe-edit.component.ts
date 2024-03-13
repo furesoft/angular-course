@@ -65,7 +65,7 @@ export class RecipeEditComponent implements OnInit {
     if (!this.editMode) {
       this.recipeService.addRecipe(recipe);
 
-      this.recipeService.getRecipes().then(recipes => {
+      this.recipeService.getRecipes(false).then(recipes => {
         this.router.navigate(["../", recipes[recipes.length - 1].id], { relativeTo: this.route });
       });
     }

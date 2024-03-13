@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h1>{{ recipe.name }} <div class="button-group pull-right" appDropdown>
+        <h1>{{ recipe.name }} <div class="button-group pull-right" appDropdown *ngIf="IsOwning">
                 <button type="button" class="btn btn-primary dropdown-toggle">Manage <span
                         class="caret"></span></button>
 

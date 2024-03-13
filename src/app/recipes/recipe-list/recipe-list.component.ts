@@ -4,6 +4,7 @@ import { RecipeService } from '../recipe.service';
 import { Subscription } from 'rxjs';
 import { RecipeChangedArg } from '../recipeChangedArg';
 import { ChangeMode } from '../changeMode';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-list',
@@ -14,12 +15,16 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   @Input() recipes: Recipe[]
   subscription: Subscription;
 
-  constructor(private recipeService: RecipeService) {
+  constructor(private recipeService: RecipeService, private route: ActivatedRoute) {
 
   }
 
   async ngOnInit() {
-    this.recipes = await this.recipeService.getRecipes();
+    this.route.queryParams.subscribe(async p =>{
+      this.recipes = await this.recipeService.getRecipes(p["all"] == "1");
+    });
+
+    this.recipes = await this.recipeService.getRecipes(this.route.snapshot.queryParams["all"] == "1");
 
     this.subscription = this.recipeService.recipesChanged.subscribe((arg: RecipeChangedArg) => {
       if (arg.mode == ChangeMode.Add) {

@@ -3,6 +3,7 @@ import { Recipe } from '../../models/Recipe';
 import { ShoppingListService } from '../../shopping-list/shopping-list.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../recipe.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -13,7 +14,14 @@ export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
   id: string;
 
-  constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute, private recipeService: RecipeService, private router: Router) {
+  get IsOwning() {
+    let user= this.authService.getUser();
+
+    return  user.id == this.recipe.createdBy;
+  }
+
+  constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute, 
+    private recipeService: RecipeService, private router: Router, private authService: AuthService) {
 
   }
   
