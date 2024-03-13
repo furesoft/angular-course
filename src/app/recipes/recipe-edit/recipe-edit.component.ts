@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from '../../models/Recipe';
 import { Ingredient } from '../../models/Ingredient';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -15,7 +16,8 @@ export class RecipeEditComponent implements OnInit {
   editMode = false;
   recipeForm: FormGroup
 
-  constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router) {
+  constructor(private route: ActivatedRoute, private recipeService: RecipeService, 
+    private router: Router, private authService: AuthService) {
 
   }
 
@@ -34,6 +36,12 @@ export class RecipeEditComponent implements OnInit {
 
     if (this.editMode) {
       recipe = await this.recipeService.getRecipe(this.id);
+
+      let user = this.authService.getUser();
+
+      if(user.id != recipe.createdBy) {
+        this.router.navigate([".."], {relativeTo: this.route});
+      }
 
       if (recipe.ingredients) {
         for (const ingredient of recipe.ingredients) {
@@ -65,7 +73,7 @@ export class RecipeEditComponent implements OnInit {
     if (!this.editMode) {
       this.recipeService.addRecipe(recipe);
 
-      this.recipeService.getRecipes(false).then(recipes => {
+      this.recipeService.getRecipes().then(recipes => {
         this.router.navigate(["../", recipes[recipes.length - 1].id], { relativeTo: this.route });
       });
     }

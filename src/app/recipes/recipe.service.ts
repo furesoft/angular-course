@@ -11,15 +11,16 @@ import { User } from "../models/User";
 export class RecipeService {
     recipesChanged = new Subject<RecipeChangedArg>();
     collection: RecordService<Recipe>;
+    public listAllRecipes: boolean = true;
 
     constructor(private auth: AuthService) {
         this.collection = auth.pb.collection<Recipe>("recipes");
     }
 
-    async getRecipes(all: boolean) {
+    async getRecipes() {
         let user = this.auth.getUser();;
 
-        if(all) {
+        if(this.listAllRecipes) {
             return await this.collection.getFullList();
         }
 

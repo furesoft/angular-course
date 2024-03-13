@@ -15,16 +15,12 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   @Input() recipes: Recipe[]
   subscription: Subscription;
 
-  constructor(private recipeService: RecipeService, private route: ActivatedRoute) {
+  constructor(private recipeService: RecipeService) {
 
   }
 
   async ngOnInit() {
-    this.route.queryParams.subscribe(async p =>{
-      this.recipes = await this.recipeService.getRecipes(p["all"] == "1");
-    });
-
-    this.recipes = await this.recipeService.getRecipes(this.route.snapshot.queryParams["all"] == "1");
+    this.recipes = await this.recipeService.getRecipes();
 
     this.subscription = this.recipeService.recipesChanged.subscribe((arg: RecipeChangedArg) => {
       if (arg.mode == ChangeMode.Add) {
@@ -39,6 +35,10 @@ export class RecipeListComponent implements OnInit, OnDestroy {
         this.recipes.splice(index, 1);
       }
     });
+  }
+
+  toggleFilter() {
+    this.recipeService.listAllRecipes = !this.recipeService.listAllRecipes;
   }
 
   ngOnDestroy(): void {
