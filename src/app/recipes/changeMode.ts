@@ -2,5 +2,6 @@
 export enum ChangeMode {
     Add,
     Delete,
-    Update
+    Update,
+    All
 }

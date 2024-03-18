@@ -3,6 +3,6 @@ import { ChangeMode } from "./changeMode";
 
 
 export class RecipeChangedArg {
-    constructor(public recipe: Recipe | string, public mode: ChangeMode) {
+    constructor(public recipe: Recipe | Recipe[] | string, public mode: ChangeMode) {
     }
 }

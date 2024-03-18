@@ -5,13 +5,18 @@ import { AuthService } from "../auth/auth.service";
 import { RecordService } from "pocketbase";
 import { RecipeChangedArg } from "./recipeChangedArg";
 import { ChangeMode } from "./changeMode";
-import { User } from "../models/User";
 
 @Injectable()
 export class RecipeService {
     recipesChanged = new Subject<RecipeChangedArg>();
     collection: RecordService<Recipe>;
     public listAllRecipes: boolean = true;
+
+    emitListAllRecipesChanged() {
+        this.getRecipes().then(recipes => {
+            this.recipesChanged.next(new RecipeChangedArg(recipes, ChangeMode.All))
+        });
+    }
 
     constructor(private auth: AuthService) {
         this.collection = auth.pb.collection<Recipe>("recipes");

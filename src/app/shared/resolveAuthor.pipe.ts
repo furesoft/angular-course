@@ -1,7 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
-import { User } from "../models/User";
-import { RecordModel } from "pocketbase";
 
 @Pipe({
     name: "resolveAuthor"
@@ -11,9 +9,9 @@ export class ResolveAuthorPipe implements PipeTransform {
 
     }
 
-    transform(value: any, ...args: any[]) {
-        return this.auth.getUserById(value).then((user: User) => {
-            return user.username;
-        });
+    async transform(value: any, ...args: any[]) {
+        const user = await this.auth.getUserById(value);
+
+        return user.username;
     }
 }

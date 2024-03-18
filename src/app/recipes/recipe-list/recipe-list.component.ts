@@ -4,7 +4,6 @@ import { RecipeService } from '../recipe.service';
 import { Subscription } from 'rxjs';
 import { RecipeChangedArg } from '../recipeChangedArg';
 import { ChangeMode } from '../changeMode';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-list',
@@ -23,22 +22,33 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     this.recipes = await this.recipeService.getRecipes();
 
     this.subscription = this.recipeService.recipesChanged.subscribe((arg: RecipeChangedArg) => {
-      if (arg.mode == ChangeMode.Add) {
-        this.recipes.push(<Recipe>arg.recipe);
-      }
-      else if (arg.mode == ChangeMode.Update) {
-        let index = this.recipes.findIndex(r => r.id == (<Recipe>arg.recipe).id)
-        this.recipes[index] = <Recipe>arg.recipe;
-      }
-      else if (arg.mode == ChangeMode.Delete) {
-        let index = this.recipes.findIndex(r => r.id == arg.recipe)
-        this.recipes.splice(index, 1);
+      switch (arg.mode) {
+        case ChangeMode.Add:
+          this.recipes.push(<Recipe>arg.recipe);
+
+          break;
+        case ChangeMode.Update:
+          let updateIndex = this.recipes.findIndex(r => r.id == (<Recipe>arg.recipe).id)
+          this.recipes[updateIndex] = <Recipe>arg.recipe;
+
+          break;
+        case ChangeMode.Delete:
+          let deletionIndex = this.recipes.findIndex(r => r.id == arg.recipe)
+          this.recipes.splice(deletionIndex, 1);
+
+          break;
+        case ChangeMode.All:
+          this.recipes = <Recipe[]>arg.recipe;
+          
+          break;
       }
     });
   }
 
-  toggleFilter() {
-    this.recipeService.listAllRecipes = !this.recipeService.listAllRecipes;
+  toggleFilter(value) {
+    this.recipeService.listAllRecipes = value;
+
+    this.recipeService.emitListAllRecipesChanged();
   }
 
   ngOnDestroy(): void {
