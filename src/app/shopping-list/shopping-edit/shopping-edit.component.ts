@@ -3,7 +3,7 @@ import { Ingredient } from '../../models/Ingredient';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../shopping-list.component';
-import { addIngredientAction, deleteIngredientAction, stopEditAction, updateIngredientAction } from '../store/shopping-list.actions';
+import { shoppingListActions } from '../store/shopping-list.actions';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(stopEditAction());
+    this.store.dispatch(shoppingListActions.stopEditAction());
   }
 
   ngOnInit() {
@@ -45,10 +45,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     newIngredient.createdBy = this.authService.getLoggedInUser().id;
 
     if (!this.editMode) {
-      this.store.dispatch(addIngredientAction({ ingredient: newIngredient }));
+      this.store.dispatch(shoppingListActions.addIngredientAction({ ingredient: newIngredient }));
     }
     else {
-      this.store.dispatch(updateIngredientAction({ ingredient: newIngredient }));
+      this.store.dispatch(shoppingListActions.updateIngredientAction({ ingredient: newIngredient }));
     }
 
     this.resetForm();
@@ -61,12 +61,14 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.store.dispatch(deleteIngredientAction({ ingredient: this.editedItem }));
+    this.store.dispatch(shoppingListActions.deleteIngredientAction({ ingredient: this.editedItem }));
 
     this.resetForm();
   }
 
   clear() {
-    this.store.dispatch(stopEditAction());
+    this.store.dispatch(shoppingListActions.stopEditAction());
+
+    this.resetForm();
   }
 }

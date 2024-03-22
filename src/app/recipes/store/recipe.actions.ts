@@ -1,6 +1,9 @@
 import { createAction, props } from "@ngrx/store";
 import { Recipe } from "../../models/Recipe";
 
-export const loadRecipesAction = createAction("[Recipe] LoadRecipes");
-export const setRecipesAction = createAction("[Recipe] SetRecipes", props<{ recipes: Recipe[] }>());
-export const addRecipeAction = createAction("[Recipe] Add");
+export let RecipeActions = {
+    init: createAction("[Recipe] SetRecipes", props<{ recipes: Recipe[] }>()),
+    add: createAction("[Recipe] Add", props<{recipe: Recipe}>()),
+    edit: createAction("[Recipe] Edit", props<{recipe: Recipe}>()),
+    delete: createAction("[Recipe] Delete", props<{id: string}>())
+}

@@ -6,7 +6,7 @@ import { RecipeChangedArg } from '../recipeChangedArg';
 import { ChangeMode } from '../changeMode';
 import { RecipeState } from '../store/recipe.reducer';
 import { Store } from '@ngrx/store';
-import { loadRecipesAction as loadRecipesAction, setRecipesAction } from '../store/recipe.actions';
+import { RecipeActions } from '../store/recipe.actions';
 import { AppState } from '../../shopping-list/shopping-list.component';
 
 @Component({
@@ -28,8 +28,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     const recipes = this.recipeService.getRecipes();
     const tmp = { recipes: await recipes };
 
-    this.store.dispatch(setRecipesAction(tmp));
-    // this.store.dispatch(loadRecipesAction());
+    this.store.dispatch(RecipeActions.init(tmp));
 
     /*
 

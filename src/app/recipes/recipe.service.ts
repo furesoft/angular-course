@@ -7,7 +7,7 @@ import { RecipeChangedArg } from "./recipeChangedArg";
 import { ChangeMode } from "./changeMode";
 import { Store } from "@ngrx/store";
 import { RecipeState } from "./store/recipe.reducer";
-import { setRecipesAction } from "./store/recipe.actions";
+import { RecipeActions } from "./store/recipe.actions";
 
 @Injectable()
 export class RecipeService {
@@ -21,7 +21,7 @@ export class RecipeService {
         });
     }
 
-    constructor(private auth: AuthService, store: Store<RecipeState>) {
+    constructor(private auth: AuthService, private store: Store<RecipeState>) {
         this.collection = auth.pb.collection<Recipe>("recipes");
     }
 
@@ -47,8 +47,6 @@ export class RecipeService {
 
     updateRecipe(recipe: Recipe) {
         this.collection.update(recipe.id, recipe)
-
-        this.recipesChanged.next(new RecipeChangedArg(recipe, ChangeMode.Update));
     }
 
     deleteRecipe(id: string) {

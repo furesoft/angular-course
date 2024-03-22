@@ -5,6 +5,9 @@ import { RecipeService } from '../recipe.service';
 import { Recipe } from '../../models/Recipe';
 import { Ingredient } from '../../models/Ingredient';
 import { AuthService } from '../../auth/auth.service';
+import { RecipeActions } from '../store/recipe.actions';
+import { RecipeState } from '../store/recipe.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -16,7 +19,7 @@ export class RecipeEditComponent implements OnInit {
   editMode = false;
   recipeForm: FormGroup
 
-  constructor(private route: ActivatedRoute, private recipeService: RecipeService,
+  constructor(private route: ActivatedRoute, private recipeService: RecipeService, private store: Store<RecipeState>,
     private router: Router, private authService: AuthService) {
 
   }
@@ -72,6 +75,7 @@ export class RecipeEditComponent implements OnInit {
 
     if (!this.editMode) {
       this.recipeService.addRecipe(recipe);
+      this.store.dispatch(RecipeActions.add({ recipe: recipe }));
 
       this.recipeService.getRecipes().then(recipes => {
         this.router.navigate(["../", recipes[recipes.length - 1].id], { relativeTo: this.route });
@@ -79,6 +83,8 @@ export class RecipeEditComponent implements OnInit {
     }
     else {
       this.recipeService.updateRecipe(recipe);
+      this.store.dispatch(RecipeActions.edit({ recipe: recipe }));
+      
       this.cancel();
     }
   }

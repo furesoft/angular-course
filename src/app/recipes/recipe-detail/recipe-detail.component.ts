@@ -4,6 +4,9 @@ import { ShoppingListService } from '../../shopping-list/shopping-list.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../recipe.service';
 import { AuthService } from '../../auth/auth.service';
+import { Store } from '@ngrx/store';
+import { RecipeState } from '../store/recipe.reducer';
+import { RecipeActions } from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -20,7 +23,7 @@ export class RecipeDetailComponent implements OnInit {
     return user.id == this.recipe.createdBy;
   }
 
-  constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute,
+  constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute, private store: Store<RecipeState>,
     private recipeService: RecipeService, private router: Router, private authService: AuthService) {
 
   }
@@ -38,6 +41,7 @@ export class RecipeDetailComponent implements OnInit {
 
   deleteRecipe() {
     this.recipeService.deleteRecipe(this.id);
+    this.store.dispatch(RecipeActions.delete({ id: this.id }));
 
     this.router.navigate(["/recipes"]);
   }
