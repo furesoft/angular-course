@@ -3,19 +3,19 @@ import { Router } from "@angular/router";
 import PocketBase from 'pocketbase';
 import { User } from "../models/User";
 
-@Injectable({providedIn: "root"})
+@Injectable({ providedIn: "root" })
 export class AuthService {
     pb = new PocketBase('http://127.0.0.1:8090');
-    
+
     constructor(private router: Router) {
-        
+
     }
 
     public get isLoggedIn() {
         return this.pb.authStore.isValid;
     }
 
-    getUser() {
+    getLoggedInUser() {
         return <User>this.pb.authStore.model;
     }
 
@@ -26,7 +26,7 @@ export class AuthService {
     logout() {
         this.pb.authStore.clear();
 
-        this.router.navigate(["auth"]);
+        this.redirectIfNotLoggedIn();
     }
 
     redirectIfNotLoggedIn() {

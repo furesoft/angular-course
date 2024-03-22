@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -12,6 +12,10 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { AuthModule } from './auth/auth.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { shoppingListReducer } from './shopping-list/store/shopping-list.reducers';
+import { RecipeEffects as RecipeEffects } from './recipes/store/recipe.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { recipeReducer } from './recipes/store/recipe.reducer';
 
 @NgModule({
   declarations: [
@@ -24,8 +28,12 @@ import { EffectsModule } from '@ngrx/effects';
     AuthModule,
     RecipesModule,
     ShoppingListModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([])
+    StoreModule.forRoot({
+      shoppingList: shoppingListReducer,
+      recipes: recipeReducer
+    }, {}),
+    EffectsModule.forRoot([RecipeEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   exports: [
 

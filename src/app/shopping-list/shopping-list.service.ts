@@ -4,6 +4,8 @@ import { Recipe } from "../models/Recipe";
 import { Subject } from "rxjs";
 import { RecordService } from "pocketbase";
 import { AuthService } from "../auth/auth.service";
+import { ShoppingListState } from "./shopping-list.component";
+import { Store } from "@ngrx/store";
 
 @Injectable()
 export class ShoppingListService {
@@ -12,18 +14,18 @@ export class ShoppingListService {
 
     private collection: RecordService<Ingredient>;
 
-    constructor(private auth: AuthService) {
+    constructor(private auth: AuthService, private store: Store<ShoppingListState>) {
         this.collection = auth.pb.collection("shopping_list");
     }
 
     async getIngredients() {
-        let user = this.auth.getUser();
+        let user = this.auth.getLoggedInUser();
 
         return await this.collection.getFullList({ filter: `createdBy = '${user.id}'` });
     }
 
     addIngredient(ingredient: Ingredient) {
-        let user = this.auth.getUser();
+        let user = this.auth.getLoggedInUser();
 
         this.collection.getFirstListItem(`name = '${ingredient.name}' && createdBy = '${user.id}'`).then(filteredIngredient => {
             filteredIngredient.amount += ingredient.amount;

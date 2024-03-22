@@ -16,7 +16,7 @@ export class RecipeEditComponent implements OnInit {
   editMode = false;
   recipeForm: FormGroup
 
-  constructor(private route: ActivatedRoute, private recipeService: RecipeService, 
+  constructor(private route: ActivatedRoute, private recipeService: RecipeService,
     private router: Router, private authService: AuthService) {
 
   }
@@ -37,10 +37,10 @@ export class RecipeEditComponent implements OnInit {
     if (this.editMode) {
       recipe = await this.recipeService.getRecipe(this.id);
 
-      let user = this.authService.getUser();
+      let user = this.authService.getLoggedInUser();
 
-      if(user.id != recipe.createdBy) {
-        this.router.navigate([".."], {relativeTo: this.route});
+      if (user.id != recipe.createdBy) {
+        this.router.navigate([".."], { relativeTo: this.route });
       }
 
       if (recipe.ingredients) {

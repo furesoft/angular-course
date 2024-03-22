@@ -15,16 +15,16 @@ export class RecipeDetailComponent implements OnInit {
   id: string;
 
   get IsOwning() {
-    let user= this.authService.getUser();
+    let user = this.authService.getLoggedInUser();
 
-    return  user.id == this.recipe.createdBy;
+    return user.id == this.recipe.createdBy;
   }
 
-  constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute, 
+  constructor(private shoppingListService: ShoppingListService, private route: ActivatedRoute,
     private recipeService: RecipeService, private router: Router, private authService: AuthService) {
 
   }
-  
+
   ngOnInit() {
     this.route.params.subscribe(async (params: Params) => {
       this.id = params["id"];
