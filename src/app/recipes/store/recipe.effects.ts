@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { RecipeService } from "../recipe.service";
-import { switchMap, tap } from "rxjs/operators";
+import { map, switchMap, tap } from "rxjs/operators";
 import { RecipeActions } from "./recipe.actions";
 import { Router } from "@angular/router";
 
@@ -35,4 +35,13 @@ export class RecipeEffects {
             this.router.navigate(["recipes", r.id]);
         })
     ), {dispatch: false});
+
+    fetchRecipes = createEffect(() => this.actions.pipe(
+        ofType(RecipeActions.fetch),
+        switchMap(async () => {
+            let recipes = await this.recipeService.getRecipes();
+
+            return RecipeActions.init({ recipes: recipes });
+        })
+    ));
 }

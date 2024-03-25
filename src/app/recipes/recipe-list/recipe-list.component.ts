@@ -1,13 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Recipe } from "../../models/Recipe";
 import { RecipeService } from '../recipe.service';
-import { Observable, Subscription } from 'rxjs';
-import { RecipeChangedArg } from '../recipeChangedArg';
-import { ChangeMode } from '../changeMode';
+import { Observable } from 'rxjs';
 import { RecipeState } from '../store/recipe.reducer';
 import { Store } from '@ngrx/store';
 import { RecipeActions } from '../store/recipe.actions';
-import { AppState } from '../../shopping-list/shopping-list.component';
 
 @Component({
   selector: 'app-recipe-list',
@@ -24,10 +21,7 @@ export class RecipeListComponent implements OnInit {
   async ngOnInit() {
     this.recipes = this.store.select("recipes");
 
-    const recipes = this.recipeService.getRecipes();
-    const tmp = { recipes: await recipes };
-
-    this.store.dispatch(RecipeActions.init(tmp));
+    this.store.dispatch(RecipeActions.fetch());
   }
 
   toggleFilter(value) {

@@ -81,7 +81,7 @@ export class RecipeEditComponent implements OnInit {
     else {
       this.store.dispatch(RecipeActions.edit({ recipe: recipe }));
       
-      this.cancel();
+      this.onCancel();
     }
   }
 
@@ -89,15 +89,15 @@ export class RecipeEditComponent implements OnInit {
     return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
 
-  addIngredient() {
+  onAddIngredient() {
     (<FormArray>this.recipeForm.get("ingredients")).push(this.getNewIngredientFormGroup(new Ingredient(null, null, null)));
   }
 
-  cancel() {
+  onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
-  deleteIngredient(index: number) {
+  onDeleteIngredient(index: number) {
     (<FormArray>this.recipeForm.get("ingredients")).removeAt(index);
   }
 }

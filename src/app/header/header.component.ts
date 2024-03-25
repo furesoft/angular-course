@@ -15,7 +15,7 @@ export class HeaderComponent {
     return this.environment.isLoggedIn;
   }
 
-  logout() {
+  onLogout() {
     this.environment.logout();
   }
 }

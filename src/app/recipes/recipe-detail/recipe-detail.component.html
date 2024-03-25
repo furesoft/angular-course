@@ -11,9 +11,9 @@
                         class="caret"></span></button>
 
                 <ol class="dropdown-menu">
-                    <li><a style="cursor: pointer" (click)="addToShoppingList()">To Shopping List</a></li>
+                    <li><a style="cursor: pointer" (click)="onAddToShoppingList()">To Shopping List</a></li>
                     <li><a style="cursor: pointer" routerLink="edit" *ngIf="IsOwning">Edit Recipe</a></li>
-                    <li><a style="cursor: pointer" (click)="deleteRecipe()" *ngIf="IsOwning">Delete Recipe</a></li>
+                    <li><a style="cursor: pointer" (click)="onDeleteRecipe()" *ngIf="IsOwning">Delete Recipe</a></li>
                 </ol>
             </div>
         </h1>

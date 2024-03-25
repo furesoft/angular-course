@@ -35,6 +35,7 @@ export class AuthComponent {
     }
     else {
       this.environment.register(form.value);
+      
       this.switchMode();
     }
 
