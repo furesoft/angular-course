@@ -20,6 +20,7 @@ export const recipeReducer = createReducer(initialState,
 function editRecipe(recipes: Recipe[], editedRecipe: Recipe) {
     let recipeIndex = findRecipeIndexById(recipes, editedRecipe.id);
 
+
     recipes[recipeIndex] = editedRecipe;
 
     return {
