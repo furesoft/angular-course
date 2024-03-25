@@ -2,26 +2,17 @@ import { Injectable } from "@angular/core";
 import { Recipe } from "../models/Recipe";
 import { AuthService } from "../auth/auth.service";
 import { RecordService } from "pocketbase";
-import { Store } from "@ngrx/store";
-import { RecipeState } from "./store/recipe.reducer";
 
 @Injectable()
 export class RecipeService {
     collection: RecordService<Recipe>;
-    public listAllRecipes: boolean = true;
 
-    constructor(private auth: AuthService, private store: Store<RecipeState>) {
+    constructor(private auth: AuthService) {
         this.collection = auth.pb.collection<Recipe>("recipes");
     }
 
     async getRecipes() {
-        let user = this.auth.getLoggedInUser();
-
-        if (this.listAllRecipes) {
-            return await this.collection.getFullList();
-        }
-
-        return await this.collection.getFullList({ filter: `createdBy = '${user.id}'` });
+        return await this.collection.getFullList();
     }
 
     async getRecipe(id: string) {
