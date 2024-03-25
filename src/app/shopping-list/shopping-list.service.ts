@@ -6,10 +6,10 @@ import { RecordService } from "pocketbase";
 import { AuthService } from "../auth/auth.service";
 import { ShoppingListState } from "./shopping-list.component";
 import { Store } from "@ngrx/store";
+import { shoppingListActions } from "./store/shopping-list.actions";
 
 @Injectable()
 export class ShoppingListService {
-    ingredientsChanged = new Subject<void>();
     startedEditing = new Subject<string>();
 
     private collection: RecordService<Ingredient>;
@@ -33,10 +33,9 @@ export class ShoppingListService {
             this.updateIngredient(filteredIngredient);
         }).catch(() => {
             ingredient.createdBy = user.id;
+            
             this.collection.create(ingredient);
         });
-
-        this.ingredientsChanged.next();
     }
 
     async getIngredient(id: string) {
@@ -47,33 +46,14 @@ export class ShoppingListService {
         for (let ingredient of recipe.ingredients) {
             this.addIngredient(ingredient);
         }
-
-        this.emitChanged();
     }
 
-    emitChanged() {
-        this.ingredientsChanged.next();
-    }
-
-    clear() {
-        this.getIngredients().then(ingredients => {
-            for (const ingredient of ingredients) {
-                this.collection.delete(ingredient.id);
-            }
-        }).then(() => {
-            this.emitChanged();
-        });;
-    }
 
     updateIngredient(ingredient: Ingredient) {
-        this.collection.update(ingredient.id, ingredient).then(() => {
-            this.emitChanged();
-        });
+        return this.collection.update(ingredient.id, ingredient);
     }
 
     delete(id: string) {
-        this.collection.delete(id).then(() => {
-            this.emitChanged();
-        });
+        return this.collection.delete(id);
     }
 }

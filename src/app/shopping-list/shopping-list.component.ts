@@ -40,9 +40,7 @@ export class ShoppingListComponent implements OnInit {
 
     this.ingredients = this.store.select('shoppingList');
 
-    this.shoppingListService.getIngredients().then(ingredients => {
-      //this.ingredients = ingredients;
-    });
+    this.store.dispatch(shoppingListActions.fetch());
   }
 
   onEditItem(id: number) {

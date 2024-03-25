@@ -7,4 +7,6 @@ export const shoppingListActions = {
     updateIngredientAction: createAction("[shopping-list] UpdateIngredient", props<{ ingredient: Ingredient }>()),
     startEditAction: createAction("[shopping-list] StartEdit", props<{ editedIngredientIndex: number }>()),
     stopEditAction: createAction("[shopping-list] StopEdit"),
+    fetch: createAction("[shopping-list] Fetch"),
+    init: createAction("[shopping-list] Init", props<{ingredients: Ingredient[]}>())
 }

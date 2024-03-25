@@ -10,18 +10,27 @@ const initialState: ShoppingListState = {
 };
 
 export const shoppingListReducer = createReducer(initialState,
-    on(shoppingListActions.addIngredientAction, (state, action) => ({ ...state, ingredients: [...state.ingredients, action.ingredient] })),
-    on(shoppingListActions.deleteIngredientAction, (state, action) => ({ ...state, ingredients: [...state.ingredients.splice(0, 1, action.ingredient)] })),
-    on(shoppingListActions.updateIngredientAction, (state, action) => updateIngredient(state, action)),
+    on(shoppingListActions.addIngredientAction, (state, action) => ({ ...state, ingredients: [...state.ingredients, action.ingredient] })), // neue Ingredoiients zum State hinzufügen
+    on(shoppingListActions.deleteIngredientAction, (state, action) => deleteIngredient(state, action)),
+    on(shoppingListActions.updateIngredientAction, (state, action) => updateIngredient(state, [...state.ingredients], action)),
     on(shoppingListActions.startEditAction, (state, action) => 
-            ({ ...state, editedIngredient: state.ingredients[action.editedIngredientIndex], editedIngredientIndex: action.editedIngredientIndex })),
-    on(shoppingListActions.stopEditAction, (state, action) => ({ ...state, editedIngredient: null, editedIngredientIndex: -1 }))
+            ({ ...state, editedIngredient: state.ingredients[action.editedIngredientIndex], editedIngredientIndex: action.editedIngredientIndex })), // Ausgewähltes Ingredient aus UI in State schreieben
+    on(shoppingListActions.stopEditAction, (state, action) => ({ ...state, editedIngredient: null, editedIngredientIndex: -1 })),
+    on(shoppingListActions.init, (state, action) => ({...state, ingredients: action.ingredients})), // Ingredients von außerhalb setzen
 );
 
-function updateIngredient(state: ShoppingListState, action: { ingredient: Ingredient }) {
-    let index = state.ingredients.findIndex((currentValue, index, arr) => currentValue.id = action.ingredient.id, this);
+function updateIngredient(state: ShoppingListState, ingredients: Ingredient[], action: { ingredient: Ingredient }) {
+    let index = ingredients.findIndex((currentValue, index, arr) => currentValue.id == action.ingredient.id);
 
-    state.ingredients[index] = action.ingredient;
+    ingredients[index] = action.ingredient;
+
+    return {...state, ingredients: ingredients};
+}
+
+function deleteIngredient(state: ShoppingListState, action: { ingredient: Ingredient }) {
+    let index = state.ingredients.findIndex((currentValue, index, arr) => currentValue.id == action.ingredient.id);
+
+    state.ingredients.splice(index, 1)
 
     return state;
 }

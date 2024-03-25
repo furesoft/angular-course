@@ -17,6 +17,7 @@ import { RecipeEffects as RecipeEffects } from './recipes/store/recipe.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { recipeReducer } from './recipes/store/recipe.reducer';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { ShoppingListEffects } from './shopping-list/store/shopping-list.effects';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
       shoppingList: shoppingListReducer,
       recipes: recipeReducer
     }, {}),
-    EffectsModule.forRoot([RecipeEffects]),
+    EffectsModule.forRoot([RecipeEffects, ShoppingListEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot()
   ],

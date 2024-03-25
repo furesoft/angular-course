@@ -9,18 +9,18 @@ import { Router } from "@angular/router";
 @Injectable()
 export class RecipeEffects {
     constructor(
-        private actions: Actions,
+        private actions$: Actions,
         private recipeService: RecipeService, private router: Router
     ) {
 
     }
 
-    editRecipe = createEffect(() => this.actions.pipe(
+    editRecipe = createEffect(() => this.actions$.pipe(
         ofType(RecipeActions.edit),
         tap((r) => this.recipeService.updateRecipe(r.recipe))),
         { dispatch: false });
 
-    deleteRecipe = createEffect(() => this.actions.pipe(
+    deleteRecipe = createEffect(() => this.actions$.pipe(
         ofType(RecipeActions.delete),
         tap(r => this.recipeService.deleteRecipe(r.id)),
         tap((t) => {
@@ -28,7 +28,7 @@ export class RecipeEffects {
         })
     ), { dispatch: false });
 
-    addRecipe = createEffect(() => this.actions.pipe(
+    addRecipe = createEffect(() => this.actions$.pipe(
         ofType(RecipeActions.add),
         switchMap(r => this.recipeService.addRecipe(r.recipe)),
         tap(r => {
@@ -36,7 +36,7 @@ export class RecipeEffects {
         })
     ), {dispatch: false});
 
-    fetchRecipes = createEffect(() => this.actions.pipe(
+    fetchRecipes = createEffect(() => this.actions$.pipe(
         ofType(RecipeActions.fetch),
         switchMap(async () => {
             let recipes = await this.recipeService.getRecipes();
